@@ -1,0 +1,22 @@
+server:
+  port: 8761 # 端口
+
+spring:
+  application:
+    name: eureka_server # 应用名称，会在Eureka中显示
+#  freemarker:
+#    template-loader-path: classpath:/templates/
+#    prefer-file-system-access: false #如果您的项目已经使用 Thymeleaf 作为其模板引擎，那么 Eureka 服务器的 Freemarker 模板可能无法正确加载。在这种情况下，必须手动配置模板加载程序
+
+eureka:
+  client:
+    register-with-eureka: true # 是否注册自己的信息到EurekaServer，默认是true
+    fetch-registry: false # 是否拉取其它服务的信息，默认是trueApp
+#    注意，这里是serviceUrl而不是service-url，eureka的server和client版本居然不一致...
+    serviceUrl: # EurekaServer的地址，现在是自己的地址，如果是集群，需要加上其它Server的地址。
+      defaultZone: http://localhost:8761/eureka/
+  server:
+    # 关闭自我保护机制
+    enable-self-preservation: false
+    # 每隔10s扫描服务列表，移除失效服务
+    eviction-interval-timer-in-ms: 10000
