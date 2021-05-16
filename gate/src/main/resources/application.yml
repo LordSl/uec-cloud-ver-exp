@@ -9,7 +9,17 @@ spring:
       discovery:
         locator:
           enabled: true
-          lowerCaseServiceId: true
+
+      routes:
+        - id:
+          uri: ws://localhost:8083 # lb协议表示启用负载均衡功能，然后后面跟着微服务名称
+          # ws的握手认证在服务发现时似乎有问题，无法通过服务名进行获取以及负载均衡（实际上是ribbon的问题）
+          # 需要手动实现哈希环，然后转发（然而由于webflux的写法问题，可能要拆成两次请求http+ws来完成...）
+          # 可以参照一下动态路由的方案@DynamicRouteServiceImpl
+          # 从http://localhost:8761/eureka/apps可以获取Eureka服务列表，也可以直接在eureka服务的实例上去维护这个哈希环（或者开个api专门干这事，或者用redis存储这个状态，或者通过gateway的拦截器，诸如此类的方法）
+
+          predicates:
+            - Path=/chat/{roomName}/{userName}
 
 eureka:
   client:

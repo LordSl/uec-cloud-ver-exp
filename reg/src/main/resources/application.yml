@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: eureka_server # 应用名称，会在Eureka中显示
+    name: eureka-server # 应用名称，会在Eureka中显示
 #  freemarker:
 #    template-loader-path: classpath:/templates/
 #    prefer-file-system-access: false #如果您的项目已经使用 Thymeleaf 作为其模板引擎，那么 Eureka 服务器的 Freemarker 模板可能无法正确加载。在这种情况下，必须手动配置模板加载程序

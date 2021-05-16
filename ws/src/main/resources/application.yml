@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ws
+    name: chatroom
 
 server:
   port: 8083
@@ -16,4 +16,3 @@ eureka:
     lease-renewal-interval-in-seconds: 10
   # 告知服务端30秒还未收到心跳的话，就将该服务移除列表
     lease-expiration-duration-in-seconds: 30
-    hostname: ws

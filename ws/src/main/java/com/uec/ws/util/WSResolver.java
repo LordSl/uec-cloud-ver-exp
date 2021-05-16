@@ -13,19 +13,14 @@ import java.util.HashMap;
 @Component
 public class WSResolver {
     HashMap<String, HashMap<String, Method>> routeMap;
-    @Autowired
     BeanFetcher beanFetcher;
-    String configJsonFilePath;
+    String configJsonFilePath= "ws/src/main/resources/WSResolveMap.json";
     //todo 目前还是手工注入，之后会改成json或xml注入
 
     @Autowired
-    public WSResolver(BeanFetcher beanFetcher){
+    public WSResolver(BeanFetcher beanFetcher) throws NoSuchMethodException, ClassNotFoundException{
         this.beanFetcher = beanFetcher;
-        this.configJsonFilePath = "src/main/resources/WSResolveMap.json";
-    }
-
-    public WSResolver() throws NoSuchMethodException, ClassNotFoundException {
-        routeMap = new HashMap<>();
+        this.routeMap = new HashMap<>();
         String jsonStr = GlobalTrans.getJsonString(configJsonFilePath);
         JSONObject jo = JSON.parseObject(jsonStr);
         String pkg = jo.getString("pkg");
