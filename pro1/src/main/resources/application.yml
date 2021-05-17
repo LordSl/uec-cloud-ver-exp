@@ -3,4 +3,31 @@ server:
 
 spring:
   application:
-    name: pro1
+    name: user
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/nkg?serverTimezone=GMT%2B8&characterEncoding=UTF-8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:/*MapperImpl.xml
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+#    appname: user
+    instance-id: user-instance
+    prefer-ip-address: true
+    # 此处暗藏天坑
+    # prefer-ip-address默认配置是false，这意味着pro1进行注册时，会优先使用域名而不是ip，而windows坑爹的设置了局域网dns，是的，你没看错，就是那个形如LAPTOP-SBCBPEQO:xxxx的玩意
+    # 这会有什么问题吗？当然，windows是通过系统内部的某个api去解析这个域名（个人猜测，待证），而eureka会切实通过网络去问，想想也知道，这个局域网域名当然是查不到结果的（如果能查到，恭喜，DNS劫持，杀毒去吧）
+    # 所以，一定要设置为true，否则你通过服务名进行服务发现的企图会全部木大
+    # tips: 服务名就是你的spring.application.name，本例中是user，和instance-id没有关系，不要被网上花里胡哨的“源码探寻”给骗了，instance-id是显示在status栏里的那个东西
+
+info:
+  item1: haha
+  item2: hehe

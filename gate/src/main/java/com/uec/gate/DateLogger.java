@@ -20,7 +20,7 @@ public class DateLogger implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         //这是在pre阶段进行拦截
-        logger.info(Objects.requireNonNull(new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date())));
+        logger.info("\ndate: "+new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date()));
         return chain.filter(exchange.mutate().build());
     }
 

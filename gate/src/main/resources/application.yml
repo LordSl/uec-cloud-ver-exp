@@ -11,17 +11,35 @@ spring:
           enabled: true
 
       routes:
-        - id:
-          uri: ws://localhost:8083 # lb协议表示启用负载均衡功能，然后后面跟着微服务名称
+        - id: chatroom
+#          uri: lb:ws://CHATROOM
+          #这是网上找到的ws的负载均衡的写法，很遗憾由于websocket协议的问题，似乎不能起效（至少js原生的websocket不行，可以试试sockJS的方案）
           # ws的握手认证在服务发现时似乎有问题，无法通过服务名进行获取以及负载均衡（实际上是ribbon的问题）
-          # 需要手动实现哈希环，然后转发（然而由于webflux的写法问题，可能要拆成两次请求http+ws来完成...）
-          # 可以参照一下动态路由的方案@DynamicRouteServiceImpl
-          # 从http://localhost:8761/eureka/apps可以获取Eureka服务列表，也可以直接在eureka服务的实例上去维护这个哈希环（或者开个api专门干这事，或者用redis存储这个状态，或者通过gateway的拦截器，诸如此类的方法）
-
+          # 需要手动实现哈希环，当然这得用到动态路由
+          # 动态路由的方案@DynamicRouteServiceImpl
+          # 从http://localhost:8761/eureka/apps可以获取Eureka服务列表，可以直接在eureka服务的实例上去维护这个哈希环（或者开个api专门干这事，或者用redis存储这个状态，或者通过gateway的拦截器，诸如此类的方法）
+          # 这里先用静态写死
+          uri: ws://localhost:8083
           predicates:
             - Path=/chat/{roomName}/{userName}
-
+        - id: user
+          uri: http://localhost:8082
+#          uri: lb://USER
+          # 这两个uri的区别在于一个使用服务名调用（gateway已经配好了lb负载平衡），一个是静态路由
+          # 注意eureka默认的服务名是大写
+          # 顺便一提，eureka的服务注册是有延迟的，大约20-40s，刚注册的服务不能被立即发现（坑爹啊）
+          predicates:
+            - Path=/user/{operationType}
+            # 这里有一个和restful有关的坑
+            # 我们知道,restful提倡用uri表示资源，用http请求类型表示动作，然而，在实际生产活动中，往往是很难用几种有限的http请求表示所有动作的，所以，我在这里也没有严格遵循规定
+            # 但注意，gateway是默认你遵守了的
+            # 在遵守restful的情况下，显然，你不会写出/user/**这样不具名的uri，如果写出了，那这个get请求应当是无参的，没有queryParam（至少gateway的开发者这么认为的）
+            # 所以，当我发出/user/select?username=obama的请求时，gateway将select?username=obama都视作了**的一部分，而不是去解析，所以获取不到queryParam！
+            # 但是**后面接东西的写法又是不被允许的，也就是说，必须显式的写出中间经过的子路由
+            # 你可以写成{a},{b},{fuck}...都没关系，但一定要有，而不能用**表示
+            - Method=GET
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+#    fetch-registry: true
