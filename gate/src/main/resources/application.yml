@@ -23,7 +23,7 @@ spring:
           predicates:
             - Path=/chat/{roomName}/{userName}
         - id: user
-          uri: http://localhost:8082
+          uri: http://localhost:8888 #并不会实际转发到这里，只是摆个样子
 #          uri: lb://USER
           # 这两个uri的区别在于一个使用服务名调用（gateway已经配好了lb负载平衡），一个是静态路由
           # 注意eureka默认的服务名是大写
