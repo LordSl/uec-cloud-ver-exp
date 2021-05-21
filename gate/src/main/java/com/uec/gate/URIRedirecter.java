@@ -1,6 +1,5 @@
 package com.uec.gate;
 
-import com.sun.jndi.toolkit.url.Uri;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -14,25 +13,37 @@ import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
 @Component
-public class DetailLogger implements GlobalFilter, Ordered {
+public class URIRedirecter implements GlobalFilter, Ordered {
 
     static Logger logger = Logger.getLogger("logger");
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        String toLog = "\n";
         ServerHttpRequest req = exchange.getRequest();
 
+        String toLog = "\n";
+
         toLog += "uri: "+req.getURI().toString() +"\n";
-        toLog += "from address: "+req.getRemoteAddress()+"\n";
-        toLog += "query params: "+req.getQueryParams();
+
+        URI uri = req.getURI();
+        String newUriStr = uri.getScheme()+"://"+uri.getAuthority()+uri.getPath()+"/test"+"?"+uri.getQuery();
+
+        try {
+            uri = new URI(newUriStr);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        req = req.mutate().uri(uri).build();
+
+        toLog += "redirect to: "+req.getURI().toString() +"\n";
         logger.info(toLog);
 
-        return chain.filter(exchange.mutate().build());
+        return chain.filter(exchange.mutate().request(req).build());
     }
 
     @Override
     public int getOrder() {
-        return -199;
+        return -198;
     }
 }
