@@ -2,22 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uec.pro1.UserMapper">
 
-  <select id="select" parameterType="java.lang.String" resultType="com.uec.pro1.UserPo">
-    select username,pwd from uec.user
-    where username = #{username}
-  </select>
-  <delete id="delete" parameterType="java.lang.String">
-    delete from uec.user
-    where username = #{username}
-  </delete>
-  <insert id="insert" keyColumn="username" keyProperty="username" parameterType="com.uec.pro1.UserPo">
-    insert into uec.user (username, pwd)
-    values (#{username},#{pwd})
-  </insert>
-  <update id="update" parameterType="com.uec.pro1.UserPo">
-    update uec.user
-    set pwd = #{pwd}
-    where username = #{username}
-  </update>
+    <select id="select" parameterType="java.lang.String" resultType="com.uec.pro1.UserPo">
+        select username, pwd
+        from uec.user
+        where username = #{username}
+    </select>
+    <delete id="delete" parameterType="java.lang.String">
+        delete
+        from uec.user
+        where username = #{username}
+    </delete>
+    <insert id="insert" keyColumn="username" keyProperty="username" parameterType="com.uec.pro1.UserPo">
+        insert into uec.user (username, pwd)
+        values (#{username}, #{pwd})
+    </insert>
+    <update id="update" parameterType="com.uec.pro1.UserPo">
+        update uec.user
+        set pwd = #{pwd}
+        where username = #{username}
+    </update>
 
 </mapper>

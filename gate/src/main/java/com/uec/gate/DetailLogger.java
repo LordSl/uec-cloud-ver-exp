@@ -1,6 +1,5 @@
 package com.uec.gate;
 
-import com.sun.jndi.toolkit.url.Uri;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
 @Component
@@ -23,9 +20,9 @@ public class DetailLogger implements GlobalFilter, Ordered {
         String toLog = "\n";
         ServerHttpRequest req = exchange.getRequest();
 
-        toLog += "uri: "+req.getURI().toString() +"\n";
-        toLog += "from address: "+req.getRemoteAddress()+"\n";
-        toLog += "query params: "+req.getQueryParams();
+        toLog += "uri: " + req.getURI().toString() + "\n";
+        toLog += "from address: " + req.getRemoteAddress() + "\n";
+        toLog += "query params: " + req.getQueryParams();
         logger.info(toLog);
 
         return chain.filter(exchange.mutate().build());

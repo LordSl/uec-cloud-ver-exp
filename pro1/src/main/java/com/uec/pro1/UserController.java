@@ -1,11 +1,9 @@
 package com.uec.pro1;
 
 import com.alibaba.fastjson.JSONArray;
-import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,22 +27,22 @@ public class UserController {
     private EurekaClient discoveryClient;
 
     @GetMapping("/select")
-    UserPo select(HttpServletRequest httpRequest, @RequestParam String username){
+    UserPo select(HttpServletRequest httpRequest, @RequestParam String username) {
         logger.info("/select");
         return userMapper.select(username);
     }
 
     @GetMapping("/select/test")
-    UserPo selectTest(HttpServletRequest httpRequest,@RequestParam String username){
+    UserPo selectTest(HttpServletRequest httpRequest, @RequestParam String username) {
         logger.info("/select/test");
         return userMapper.select(username);
     }
 
 
     @GetMapping("/check")
-    String check(){
+    String check() {
         JSONArray ja = new JSONArray();
-        for(Object o: discoveryClient.getApplications().getRegisteredApplications()){
+        for (Object o : discoveryClient.getApplications().getRegisteredApplications()) {
             ja.add(o.toString());
         }
         return ja.toJSONString();

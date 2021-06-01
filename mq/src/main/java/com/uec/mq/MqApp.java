@@ -1,13 +1,12 @@
-package com.uec.pro1;
+package com.uec.mq;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.uec.pro1")
-public class Pro1App {
+public class MqApp {
     public static void main(String[] args) {
-        SpringApplication.run(Pro1App.class, args);
+        SpringApplication.run(MqApp.class, args);
     }
+
 }

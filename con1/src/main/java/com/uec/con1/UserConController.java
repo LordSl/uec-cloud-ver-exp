@@ -10,14 +10,14 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/user")
 public class UserConController {
+    private final String gateUrl = "http://localhost:8089";
     @Autowired
     private RestTemplate restTemplate;
-    private final String gateUrl = "http://localhost:8089";
 
     @GetMapping("/select")
-    public UserVo select(@RequestParam String username){
+    public UserVo select(@RequestParam String username) {
 
-        return restTemplate.getForObject(gateUrl+"/user/select?username={1}",UserVo.class,username);
+        return restTemplate.getForObject(gateUrl + "/user/select?username={1}", UserVo.class, username);
         //注意一下这里的占位符{1}，它和后面的可变参数一一对应
     }
 

@@ -9,7 +9,6 @@ import reactor.core.publisher.Mono;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 @Component
@@ -20,7 +19,7 @@ public class DateLogger implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         //这是在pre阶段进行拦截
-        logger.info("\ndate: "+new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date()));
+        logger.info("\ndate: " + new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date()));
         return chain.filter(exchange.mutate().build());
     }
 

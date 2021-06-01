@@ -12,7 +12,7 @@ eureka:
   client:
     register-with-eureka: true # 是否注册自己的信息到EurekaServer，默认是true
     fetch-registry: false # 是否拉取其它服务的信息，默认是trueApp
-#    注意，这里是serviceUrl而不是service-url，eureka的server和client版本居然不一致...
+    #    注意，这里是serviceUrl而不是service-url，eureka的server和client版本居然不一致...
     serviceUrl: # EurekaServer的地址，现在是自己的地址，如果是集群，需要加上其它Server的地址。
       defaultZone: http://localhost:8761/eureka/
   server:
