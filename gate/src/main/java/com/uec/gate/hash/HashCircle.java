@@ -43,8 +43,15 @@ public class HashCircle {
             synchronized (this){
                 List<URI> tmpList = new ArrayList<>(uriSet);
                 int tmpListSize = tmpList.size();
-                for(int i=0;i<maxEndPointNum;i++){
-                    map.put(i,tmpList.get(i%tmpListSize));
+                if(tmpListSize==0){
+                    for(int i=0;i<maxEndPointNum;i++){
+                        map.put(i,null);
+                    }
+                }
+                else {
+                    for(int i=0;i<maxEndPointNum;i++){
+                        map.put(i,tmpList.get(i%tmpListSize));
+                    }
                 }
             }
             currentEndPointNum = uriSet.size();
@@ -52,9 +59,12 @@ public class HashCircle {
     }
 
     //根据当前秒数取得应该路由到的uri
-    public URI getURI(){
-        int secondNum = Calendar.getInstance().get(Calendar.SECOND);
-        return map.get(secondNum);
+    public URI getURI(URI uri){
+        String roomName = uri.getPath().split("/")[2];
+        int hashValue = roomName.hashCode()%maxEndPointNum;
+//        int hashValue = Calendar.getInstance().get(Calendar.SECOND);
+        System.out.println("path: "+uri.getPath()+"\nhash value: "+hashValue);
+        return map.get(hashValue);
     }
 
     //在定义域内

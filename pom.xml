@@ -9,12 +9,14 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>ws</module>
+        <module>ws1</module>
         <module>pro1</module>
         <module>con1</module>
         <module>reg</module>
         <module>gate</module>
         <module>mq</module>
+        <module>ws1</module>
+        <module>ws2</module>
     </modules>
 
     <properties>

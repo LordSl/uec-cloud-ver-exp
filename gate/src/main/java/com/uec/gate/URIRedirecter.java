@@ -37,9 +37,9 @@ public class URIRedirecter implements GlobalFilter, Ordered {
     private void doRedirect(ServerWebExchange exchange) {
         Route route = exchange.getAttribute(GATEWAY_ROUTE);
         if (route != null) {
-            logger.info("original uri: " + exchange.getRequest().getURI().toString() + "\n");
+            logger.info("original uri: " + exchange.getRequest().getURI().toString());
 
-            URI newUri = hashCircle.getURI();
+            URI newUri = hashCircle.getURI(exchange.getRequest().getURI());
 
             Route newRoute = Route.async().asyncPredicate((route.getPredicate()))
                     .filters(route.getFilters())
@@ -49,7 +49,7 @@ public class URIRedirecter implements GlobalFilter, Ordered {
                     .build();
 
             exchange.getAttributes().put(GATEWAY_ROUTE, newRoute);
-            logger.info("redirect to: " + newUri.toString() + "\n");
+            logger.info("redirect to: " + newUri.toString());
         }
     }
 
