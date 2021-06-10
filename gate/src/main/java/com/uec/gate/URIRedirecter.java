@@ -63,7 +63,7 @@ public class URIRedirecter implements GlobalFilter, Ordered {
         //在这里配置具体路由规则
         if (!uri.getScheme().equals("http")) return uri;
 //        String newUriStr = uri.getScheme()+"://"+"localhost:8082"+uri.getPath()+"/test"+uri.getRawQuery();
-        String newUriStr = uri.getScheme() + "://" + "localhost:8082" + uri.getPath() + "?" + uri.getQuery();
+        String newUriStr = uri.getScheme() + "://" + "localhost:8081" + uri.getPath() + "?" + uri.getQuery();
         URI newUri = null;
         try {
             newUri = new URI(newUriStr);
