@@ -19,7 +19,7 @@ spring:
           # 动态路由的方案@DynamicRouteServiceImpl
           # 从http://localhost:8761/eureka/apps可以获取Eureka服务列表，可以直接在eureka服务的实例上去维护这个哈希环（或者开个api专门干这事，或者用redis存储这个状态，或者通过gateway的拦截器，诸如此类的方法）
           # 这里先用静态写死
-          uri: ws://localhost:8083
+          uri: ws://localhost:8888 #并不会实际转发到这里，只是摆个样子
           predicates:
             - Path=/chat/{roomName}/{userName}
         - id: user

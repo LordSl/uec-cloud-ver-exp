@@ -10,6 +10,7 @@ public class GlobalJedis {
 
     public GlobalJedis() {
         jedis = new Jedis("localhost", 6379);
+        jedis.flushAll();
     }
 
     public boolean setnx(String key, String value, long time) {
